@@ -12,7 +12,9 @@ CREATE TABLE SocialWorker (
     birth_date DATE,                              -- 생년월일
     email VARCHAR(255) UNIQUE NOT NULL,           -- 이메일
     photo BLOB,                                   -- 사진 (파일 저장 가능)
-    password VARCHAR(255) NOT NULL                -- 비밀번호
+    password VARCHAR(255) NOT NULL,               -- 비밀번호
+    gender CHAR(1) NOT NULL,                      -- 성별 (M: 남성, F: 여성)
+    phone VARCHAR(20)                             -- 전화번호
 );
 
 CREATE TABLE Elderly_SocialWorker (
