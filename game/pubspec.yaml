@@ -1,0 +1,11 @@
+flutter:
+  assets:
+    - assets/shape0.png
+    - assets/shape1.png
+    - assets/shape2.png
+    - assets/shape3.png
+    - assets/shape4.png
+    - assets/shape5.png
+    - assets/shape6.png
+    - assets/shape7.png
+    - assets/shape8.png
