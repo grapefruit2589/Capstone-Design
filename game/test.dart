@@ -1,4 +1,3 @@
-
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
@@ -22,19 +21,44 @@ class _CoupleGameState extends State<CoupleGame> {
   List<List<int>> board = [];
   List<List<int>> status = [];
 
-  int tx = -1, ty = -1; // TEMP 셀 좌표
-  int count = 0; // 시도 횟수
-  bool isProcessing = false; // 클릭 잠금
+  int tx = -1, ty = -1;
+  int count = 0;
+  bool isProcessing = false;
+
+  // 제한시간 관련
+  Timer? gameTimer;
+  int timeLimit = 60;
+
+  // 카운트다운 관련
+  int countdownValue = 3;
+  bool isCountdown = true;
 
   @override
   void initState() {
     super.initState();
-    initGame();
+    startCountdown();
+  }
+
+  void startCountdown() {
+    countdownValue = 3;
+    isCountdown = true;
+
+    Timer.periodic(Duration(seconds: 1), (timer) {
+      setState(() {
+        countdownValue--;
+      });
+
+      if (countdownValue == 0) {
+        timer.cancel();
+        isCountdown = false;
+        initGame();
+      }
+    });
   }
 
   void initGame() {
     imageList = [
-      'assets/shape0.png',  // 기본 숨겨진 이미지
+      'assets/shape0.png',
       'assets/shape1.png',
       'assets/shape2.png',
       'assets/shape3.png',
@@ -44,11 +68,29 @@ class _CoupleGameState extends State<CoupleGame> {
       'assets/shape7.png',
       'assets/shape8.png',
     ];
-    // 4x4 보드 초기화
+
     board = List.generate(nH, (_) => List.filled(nW, 0));
     status = List.generate(nH, (_) => List.filled(nW, 0));
-
     randomImagePair();
+
+    gameTimer?.cancel();
+    timeLimit = 60;
+
+    gameTimer = Timer.periodic(Duration(seconds: 1), (timer) {
+      setState(() {
+        timeLimit--;
+      });
+
+      if (timeLimit <= 0) {
+        timer.cancel();
+        _showTimeoutDialog();
+      }
+    });
+
+    count = 0;
+    tx = ty = -1;
+    isProcessing = false;
+
     setState(() {});
   }
 
@@ -69,11 +111,11 @@ class _CoupleGameState extends State<CoupleGame> {
   }
 
   void onCellTap(int x, int y) {
-    if (isProcessing) return;
-    if (status[y][x] != 0) return; // 이미 뒤집혔거나 보여지는 셀 클릭 무시
+    if (isProcessing || isCountdown) return;
+    if (status[y][x] != 0) return;
 
     setState(() {
-      status[y][x] = 1; // TEMP 상태로 변경
+      status[y][x] = 1;
     });
 
     if (tx == -1) {
@@ -82,33 +124,33 @@ class _CoupleGameState extends State<CoupleGame> {
     } else {
       count++;
       if (board[ty][tx] == board[y][x]) {
-        // 맞췄을 때
         setState(() {
-          status[ty][tx] = 2; // FLIP
+          status[ty][tx] = 2;
           status[y][x] = 2;
           tx = ty = -1;
         });
         if (checkWin()) {
+          gameTimer?.cancel();
           Future.delayed(Duration(milliseconds: 500), () {
             showDialog(
-                context: context,
-                builder: (_) => AlertDialog(
-                      title: Text('축하합니다!'),
-                      content: Text('모든 그림을 맞췄어요!\n시도횟수: $count번'),
-                      actions: [
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                            initGame();
-                          },
-                          child: Text('다시 시작'),
-                        )
-                      ],
-                    ));
+              context: context,
+              builder: (_) => AlertDialog(
+                title: Text('축하합니다!'),
+                content: Text('모든 그림을 맞췄어요!\n시도횟수: $count번'),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      startCountdown();
+                    },
+                    child: Text('다시 시작'),
+                  ),
+                ],
+              ),
+            );
           });
         }
       } else {
-        // 틀렸을 때
         isProcessing = true;
         Future.delayed(Duration(seconds: 1), () {
           setState(() {
@@ -129,41 +171,80 @@ class _CoupleGameState extends State<CoupleGame> {
     return true;
   }
 
+  void _showTimeoutDialog() {
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: Text('시간 초과'),
+        content: Text('제한시간이 끝났습니다.\n시도횟수: $count번'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              startCountdown();
+            },
+            child: Text('다시 시작'),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     double cellSize = MediaQuery.of(context).size.width / nW;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('그림 짝 찾기 게임 - 시도: $count'),
+        title: Text('그림 짝 찾기 - 시도: $count | 남은시간: $timeLimit초'),
       ),
-      body: GridView.builder(
-        padding: EdgeInsets.all(10),
-        itemCount: nW * nH,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: nW,
-          mainAxisSpacing: 10,
-          crossAxisSpacing: 10,
-        ),
-        itemBuilder: (context, index) {
-          int x = index % nW;
-          int y = index ~/ nW;
+      body: Stack(
+        children: [
+          Opacity(
+            opacity: isCountdown ? 0.3 : 1.0,
+            child: GridView.builder(
+              padding: EdgeInsets.all(10),
+              itemCount: nW * nH,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: nW,
+                mainAxisSpacing: 10,
+                crossAxisSpacing: 10,
+              ),
+              itemBuilder: (context, index) {
+                int x = index % nW;
+                int y = index ~/ nW;
 
-          String imgPath;
-          if (status[y][x] == 0) {
-            imgPath = imageList[0]; // 뒷면
-          } else {
-            imgPath = imageList[board[y][x]];
-          }
+                String imgPath;
+                if (status[y][x] == 0) {
+                  imgPath = imageList[0];
+                } else {
+                  imgPath = imageList[board[y][x]];
+                }
 
-          return GestureDetector(
-            onTap: () => onCellTap(x, y),
-            child: Container(
-              color: Colors.grey[300],
-              child: Image.asset(imgPath, fit: BoxFit.cover),
+                return GestureDetector(
+                  onTap: () => onCellTap(x, y),
+                  child: Container(
+                    color: Colors.grey[300],
+                    child: Image.asset(imgPath, fit: BoxFit.cover),
+                  ),
+                );
+              },
             ),
-          );
-        },
+          ),
+
+          // 카운트다운 표시
+          if (isCountdown)
+            Center(
+              child: Text(
+                '$countdownValue',
+                style: TextStyle(
+                  fontSize: 100,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.red,
+                ),
+              ),
+            ),
+        ],
       ),
     );
   }
