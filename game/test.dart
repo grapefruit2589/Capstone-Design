@@ -33,6 +33,9 @@ class _CoupleGameState extends State<CoupleGame> {
   int countdownValue = 3;
   bool isCountdown = true;
 
+  // 일시정지 상태
+  bool isPaused = false;
+
   @override
   void initState() {
     super.initState();
@@ -75,17 +78,7 @@ class _CoupleGameState extends State<CoupleGame> {
 
     gameTimer?.cancel();
     timeLimit = 60;
-
-    gameTimer = Timer.periodic(Duration(seconds: 1), (timer) {
-      setState(() {
-        timeLimit--;
-      });
-
-      if (timeLimit <= 0) {
-        timer.cancel();
-        _showTimeoutDialog();
-      }
-    });
+    startTimer();
 
     count = 0;
     tx = ty = -1;
@@ -111,7 +104,7 @@ class _CoupleGameState extends State<CoupleGame> {
   }
 
   void onCellTap(int x, int y) {
-    if (isProcessing || isCountdown) return;
+    if (isProcessing || isCountdown || isPaused) return;
     if (status[y][x] != 0) return;
 
     setState(() {
@@ -132,22 +125,7 @@ class _CoupleGameState extends State<CoupleGame> {
         if (checkWin()) {
           gameTimer?.cancel();
           Future.delayed(Duration(milliseconds: 500), () {
-            showDialog(
-              context: context,
-              builder: (_) => AlertDialog(
-                title: Text('축하합니다!'),
-                content: Text('모든 그림을 맞췄어요!\n시도횟수: $count번'),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                      startCountdown();
-                    },
-                    child: Text('다시 시작'),
-                  ),
-                ],
-              ),
-            );
+            showResultDialog('축하합니다!', '모든 그림을 맞췄어요!\n시도횟수: $count번');
           });
         }
       } else {
@@ -171,12 +149,12 @@ class _CoupleGameState extends State<CoupleGame> {
     return true;
   }
 
-  void _showTimeoutDialog() {
+  void showResultDialog(String title, String content) {
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        title: Text('시간 초과'),
-        content: Text('제한시간이 끝났습니다.\n시도횟수: $count번'),
+        title: Text(title),
+        content: Text(content),
         actions: [
           TextButton(
             onPressed: () {
@@ -190,18 +168,57 @@ class _CoupleGameState extends State<CoupleGame> {
     );
   }
 
+  void startTimer() {
+    gameTimer?.cancel();
+    gameTimer = Timer.periodic(Duration(seconds: 1), (timer) {
+      if (!isPaused) {
+        setState(() {
+          timeLimit--;
+        });
+
+        if (timeLimit <= 0) {
+          timer.cancel();
+          showResultDialog('시간 초과', '제한시간이 끝났습니다.\n시도횟수: $count번');
+        }
+      }
+    });
+  }
+
+  void togglePause() {
+    setState(() {
+      isPaused = !isPaused;
+    });
+  }
+
+  void endGameEarly() {
+    gameTimer?.cancel();
+    showResultDialog('게임 종료', '게임을 조기 종료했습니다.\n시도횟수: $count번');
+  }
+
   @override
   Widget build(BuildContext context) {
     double cellSize = MediaQuery.of(context).size.width / nW;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('그림 짝 찾기 - 시도: $count | 남은시간: $timeLimit초'),
+        title: Text('🧩 그림 짝 찾기'),
+        actions: [
+          IconButton(
+            icon: Icon(isPaused ? Icons.play_arrow : Icons.pause),
+            onPressed: isCountdown ? null : togglePause,
+            tooltip: isPaused ? '재시작' : '일시정지',
+          ),
+          IconButton(
+            icon: Icon(Icons.stop),
+            onPressed: isCountdown ? null : endGameEarly,
+            tooltip: '조기 종료',
+          ),
+        ],
       ),
       body: Stack(
         children: [
           Opacity(
-            opacity: isCountdown ? 0.3 : 1.0,
+            opacity: (isCountdown || isPaused) ? 0.3 : 1.0,
             child: GridView.builder(
               padding: EdgeInsets.all(10),
               itemCount: nW * nH,
@@ -231,8 +248,6 @@ class _CoupleGameState extends State<CoupleGame> {
               },
             ),
           ),
-
-          // 카운트다운 표시
           if (isCountdown)
             Center(
               child: Text(
@@ -244,6 +259,33 @@ class _CoupleGameState extends State<CoupleGame> {
                 ),
               ),
             ),
+          if (isPaused)
+            Center(
+              child: Text(
+                '⏸️ 일시정지 중',
+                style: TextStyle(
+                  fontSize: 40,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blueAccent,
+                ),
+              ),
+            ),
+          Positioned(
+            bottom: 10,
+            left: 10,
+            child: Text(
+              '시도: $count회',
+              style: TextStyle(fontSize: 18),
+            ),
+          ),
+          Positioned(
+            bottom: 10,
+            right: 10,
+            child: Text(
+              '남은 시간: $timeLimit초',
+              style: TextStyle(fontSize: 18),
+            ),
+          ),
         ],
       ),
     );
