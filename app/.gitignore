@@ -10,8 +10,8 @@
 .history
 .svn/
 .swiftpm/
+.README.md/
 migrate_working_dir/
-.README.md
 
 # IntelliJ related
 *.iml
