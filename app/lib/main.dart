@@ -5,6 +5,7 @@ import 'SeniorCitizenLoginScreen.dart' as seniorLogin;
 import 'RegisterScreen.dart';
 import 'SeniorHomeScreen.dart';
 import 'CaregiverHomeScreen.dart';
+import 'CaregiverDetailScreen.dart';
 
 void main() => runApp(SilverOnApp());
 
@@ -23,6 +24,7 @@ class SilverOnApp extends StatelessWidget {
         '/register': (context) => RegisterScreen(),
         '/home_senior': (context) => SeniorHomeCompactScreen(),
         '/home_caregiver': (context) => CaregiverHomeScreen(),
+        '/caregiver_detail': (context) => CaregiverDetailScreen(),
       },
     );
   }
