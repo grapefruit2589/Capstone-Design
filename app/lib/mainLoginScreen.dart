@@ -22,14 +22,12 @@ class LoginScreen extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: 24),
-
                 Image.asset(
-                    'assets/partnership.png',
-                    width: 150,
-                    height: 150,
-                    fit: BoxFit.contain,
-                  ),
-
+                  'assets/partnership.png',
+                  width: 150,
+                  height: 150,
+                  fit: BoxFit.contain,
+                ),
                 SizedBox(height: 24),
                 Text(
                   '로그인',
@@ -37,11 +35,12 @@ class LoginScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 32),
 
+                // ✅ 노인 사용자로 로그인
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton.icon(
                     onPressed: () {
-                      // TODO: 노인 로그인 처리
+                      Navigator.pushNamed(context, '/login_senior');
                     },
                     icon: Text('🧓'),
                     label: Text('노인 사용자로 로그인'),
@@ -53,13 +52,15 @@ class LoginScreen extends StatelessWidget {
                     ),
                   ),
                 ),
+
                 SizedBox(height: 12),
 
+                // ✅ 요양 보호사로 로그인 (추후 라우트 추가 가능)
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton.icon(
                     onPressed: () {
-                      // TODO: 보호사 로그인 처리
+                      // TODO: 요양 보호사 로그인 라우트 연결 시 수정
                     },
                     icon: Text('👩‍⚕️'),
                     label: Text('요양 보호사로 로그인'),
@@ -71,6 +72,7 @@ class LoginScreen extends StatelessWidget {
                     ),
                   ),
                 ),
+
                 SizedBox(height: 24),
 
                 Text(
