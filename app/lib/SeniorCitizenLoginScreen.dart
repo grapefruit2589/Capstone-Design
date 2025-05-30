@@ -23,38 +23,62 @@ class SeniorCitizenLoginScreen extends StatelessWidget {
                   height: 150,
                   fit: BoxFit.contain,
                 ),
+                SizedBox(height: 28),
                 Text(
                   '로그인',
                   style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
                 ),
-                SizedBox(height: 32),
+                SizedBox(height: 24),
+                SizedBox(height: 6),
+
+                // 아이디 (이메일) 입력
+                TextField(
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: InputDecoration(
+                    labelText: '아이디 (이메일)',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                SizedBox(height: 16),
+
+                // 비밀번호 입력
+                TextField(
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    labelText: '비밀번호',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                SizedBox(height: 12),
+
 
                 // ✅ 카카오톡 로그인
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton.icon(
-                    onPressed: () {},
-                    icon: Text('🟡', style: TextStyle(fontSize: 20)),
-                    label: Text('카카오톡 계정으로 로그인'),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFFFEE500),
-                      foregroundColor: Colors.black87,
-                      padding: EdgeInsets.symmetric(vertical: 16),
-                      textStyle: TextStyle(fontSize: 16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
+                // 구현이 힘들 시에 삭제할 예정
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  child: GestureDetector(
+                    onTap: () {
+                      // TODO: 카카오 로그인 기능
+                    },
+                    child: Image.asset(
+                      'assets/kakao_login_medium_narrow.png',
+                      width: MediaQuery.of(context).size.width * 1.0, //
+                      height: 65,
+                      fit: BoxFit.fitHeight, //
                     ),
                   ),
                 ),
 
-                SizedBox(height: 12),
+
+                SizedBox(height: 14),
 
                 // ✅ 회원가입 버튼
                 SizedBox(
                   width: double.infinity,
                   child: OutlinedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/register'); // ✅ 회원가입 화면으로 이동
+                    },
                     child: Text('회원 가입'),
                     style: OutlinedButton.styleFrom(
                       padding: EdgeInsets.symmetric(vertical: 16),
@@ -62,6 +86,7 @@ class SeniorCitizenLoginScreen extends StatelessWidget {
                     ),
                   ),
                 ),
+
 
                 SizedBox(height: 16),
 
