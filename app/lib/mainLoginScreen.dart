@@ -40,7 +40,7 @@ class LoginScreen extends StatelessWidget {
                   width: double.infinity,
                   child: ElevatedButton.icon(
                     onPressed: () {
-                      Navigator.pushNamed(context, '/login_senior');
+                      Navigator.pushNamed(context, '/login_both');
                     },
                     icon: Text('🧓'),
                     label: Text('노인 사용자로 로그인'),
@@ -60,7 +60,7 @@ class LoginScreen extends StatelessWidget {
                   width: double.infinity,
                   child: ElevatedButton.icon(
                     onPressed: () {
-                      // TODO: 요양 보호사 로그인 라우트 연결 시 수정
+                      Navigator.pushNamed(context, '/login_both');
                     },
                     icon: Text('👩‍⚕️'),
                     label: Text('요양 보호사로 로그인'),

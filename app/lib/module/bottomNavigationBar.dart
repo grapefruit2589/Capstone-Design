@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 
 class CustomBottomNav extends StatelessWidget {
   final Color color;
-  const CustomBottomNav({required this.color});
+  final String homeRoute;
+
+  const CustomBottomNav({
+    required this.color,
+    required this.homeRoute,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +20,7 @@ class CustomBottomNav extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          _buildNavIcon(context, Icons.home, '홈', '/home_senior', color),
+          _buildNavIcon(context, Icons.home, '홈', homeRoute, color),
           _buildNavIcon(context, Icons.accessibility_new, '활동', '/activity', color),
           _buildNavIcon(context, Icons.help_outline, '도움말', '/help', color),
         ],
@@ -30,7 +35,7 @@ class CustomBottomNav extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, size: 35, color: color),
+            Icon(icon, size: 30, color: color),
             SizedBox(height: 4),
             Text(label, style: TextStyle(fontSize: 18, color: color)),
           ],
@@ -39,3 +44,4 @@ class CustomBottomNav extends StatelessWidget {
     );
   }
 }
+

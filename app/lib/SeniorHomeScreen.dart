@@ -57,7 +57,9 @@ class SeniorHomeCompactScreen extends StatelessWidget {
         ),
       ),
 
-      bottomNavigationBar: CustomBottomNav(color: blue), // 네비게이션 바 모듈
+        bottomNavigationBar: CustomBottomNav(
+            color: blue,
+            homeRoute: '/home_senior'),
     );
   }
 
