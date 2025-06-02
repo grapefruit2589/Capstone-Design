@@ -19,7 +19,7 @@ class CaregiverDetailScreen extends StatelessWidget {
       body: SafeArea(
         child: Stack(
           children: [
-            SingleChildScrollView( // ✅ 스크롤 가능
+            SingleChildScrollView( // 스크롤
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 child: Column(
