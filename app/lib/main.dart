@@ -8,6 +8,7 @@ import 'CaregiverHomeScreen.dart';
 import 'CaregiverDetailScreen.dart';
 import 'SeniorGameScreen.dart';
 import 'CardCoupleGame.dart';
+import 'SeniorLocalEventScreen.dart';
 
 void main() => runApp(SilverOnApp());
 
@@ -19,7 +20,7 @@ class SilverOnApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       //home: SplashScreen(), // 첫 시작 화면
       //home: CaregiverHomeScreen(),  //임시 개발환경
-      home: SeniorGameScreen(),  //임시 개발환경
+      home: SeniorHomeCompactScreen(),  //임시 개발환경
       routes: {
         '/login': (context) => mainLogin.LoginScreen(),
         '/login_both': (context) => seniorLogin.SeniorCitizenLoginScreen(),
@@ -29,6 +30,8 @@ class SilverOnApp extends StatelessWidget {
         '/caregiver_detail': (context) => CaregiverDetailScreen(),
         '/game': (context) => SeniorGameScreen(),
         '/game_matching': (context) => CardCoupleGame(),
+        '/local_event': (context) => SeniorLocalEventScreen(),
+
       },
     );
   }
