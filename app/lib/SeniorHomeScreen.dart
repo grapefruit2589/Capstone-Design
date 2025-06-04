@@ -28,7 +28,7 @@ class SeniorHomeCompactScreen extends StatelessWidget {
                 childAspectRatio: 1,
                 physics: const NeverScrollableScrollPhysics(),
                 children: [
-                  _buildTile(context, '추억공유', Icons.photo, '', blue),
+                  _buildTile(context, '추억공유', Icons.photo, '/reminiscence', blue),
                   _buildTile(context, '치매 예방 게임', Icons.extension, '/game', blue),
                   _buildStepTile(context, blue),
                   _buildTile(context, '지역 행사', Icons.event, '/local_event', blue),

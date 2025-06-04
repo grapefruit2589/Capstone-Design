@@ -14,7 +14,7 @@ class SeniorGameScreen extends StatelessWidget {
           children: [
             Column(
               children: [
-                // 상단 타이틀 + 설명
+                // 타이틀 & 설명
                 Padding(
                   padding: const EdgeInsets.only(top: 12, bottom: 16),
                   child: Column(
@@ -32,39 +32,59 @@ class SeniorGameScreen extends StatelessWidget {
                   ),
                 ),
 
-                // 게임 목록
+                // 게임 목록 (스크롤 가능)
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: GridView.count(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 20,
-                      crossAxisSpacing: 20,
-                      childAspectRatio: 3 / 4,
-                      children: [
-                        // 카드 매칭 게임
-                        InteractiveGameCard(
-                          title: '카드 매칭 게임',
-                          subtitle: '(1단계)',
-                          icon: Icons.style,
+                    child: GridView.builder(
+                      itemCount: 4,
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 20,
+                        crossAxisSpacing: 20,
+                        childAspectRatio: 3 / 4,
+                      ),
+                      itemBuilder: (context, index) {
+                        final games = [
+                          {
+                            'title': '카드 매칭 게임',
+                            'subtitle': '',
+                            'icon': Icons.style,
+                            'route': '/game_matching',
+                          },
+                          {
+                            'title': '속담 퀴즈',
+                            'subtitle': '',
+                            'icon': Icons.chat,
+                            'route': '/game_proverb',
+                          },
+                          {
+                            'title': '가수 맞추기',
+                            'subtitle': '',
+                            'icon': Icons.mic_external_on,
+                            'route': '/game_singer',
+                          },
+                          {
+                            'title': '가사 맞추기',
+                            'subtitle': '',
+                            'icon': Icons.music_note,
+                            'route': '/game_lyrics',
+                          },
+                        ];
+
+                        final game = games[index];
+
+                        return InteractiveGameCard(
+                          title: game['title'] as String,
+                          subtitle: game['subtitle'] as String,
+                          icon: game['icon'] as IconData,
                           enabled: true,
-                          route: '/game_matching', //TODO: 실제 구현된 카드게임 경로로
+                          route: game['route'] as String,
                           borderColor: Colors.grey,
                           iconColor: Colors.blue,
                           textColor: Colors.blue,
-                        ),
-
-                        // 나머지 미정 게임 3개
-                        for (int i = 0; i < 3; i++)
-                          _buildGameCard(
-                            context,
-                            title: '미정',
-                            subtitle: '',
-                            icon: Icons.block,
-                            enabled: false,
-                            color: Colors.grey,
-                          ),
-                      ],
+                        );
+                      },
                     ),
                   ),
                 ),
@@ -91,66 +111,6 @@ class SeniorGameScreen extends StatelessWidget {
       bottomNavigationBar: CustomBottomNav(
         color: blue,
         homeRoute: '/home_senior',
-      ),
-    );
-  }
-
-  // 공통 게임 카드 위젯
-  Widget _buildGameCard(BuildContext context, {
-    required String title,
-    required String subtitle,
-    required IconData icon,
-    required bool enabled,
-    String? route,
-    required Color color,
-    Color? iconColor,
-    Color? textColor,
-  }) {
-    final iconCol = iconColor ?? color;
-    final textCol = textColor ?? color;
-
-    return Material(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(12),
-      child: InkWell(
-        onTap: () {
-          if (enabled && route != null) {
-            Navigator.pushNamed(context, route);
-          } else {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('아직 구현되지 않은 게임입니다.')),
-            );
-          }
-        },
-        borderRadius: BorderRadius.circular(12),
-        splashColor: color.withOpacity(0.2),
-        highlightColor: color.withOpacity(0.1),
-        child: Container(
-          padding: EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            border: Border.all(color: color, width: 2),
-            borderRadius: BorderRadius.circular(12),
-            color: color.withOpacity(0.05),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(icon, size: 48, color: iconCol),
-              SizedBox(height: 16),
-              Text(
-                title,
-                style: TextStyle(
-                    fontSize: 18, color: textCol, fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center,
-              ),
-              if (subtitle.isNotEmpty) ...[
-                SizedBox(height: 8),
-                Text(subtitle,
-                    style: TextStyle(fontSize: 14, color: Colors.grey[600])),
-              ]
-            ],
-          ),
-        ),
       ),
     );
   }

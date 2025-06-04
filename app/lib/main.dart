@@ -9,6 +9,8 @@ import 'CaregiverDetailScreen.dart';
 import 'SeniorGameScreen.dart';
 import 'CardCoupleGame.dart';
 import 'SeniorLocalEventScreen.dart';
+import 'SeniorReminiscenceScreen.dart' as reminiscence;
+import 'SeniorReminiscenceFeedbackScreen.dart' as feedback;
 
 void main() => runApp(SilverOnApp());
 
@@ -18,9 +20,19 @@ class SilverOnApp extends StatelessWidget {
     return MaterialApp(
       title: '실버ON',
       debugShowCheckedModeBanner: false,
-      //home: SplashScreen(), // 첫 시작 화면
-      //home: CaregiverHomeScreen(),  //임시 개발환경
-      home: SeniorHomeCompactScreen(),  //임시 개발환경
+      home: SeniorHomeCompactScreen(),
+      onGenerateRoute: (settings) {
+        if (settings.name == '/reminiscence_feedback') {
+          final args = settings.arguments as Map;
+          return MaterialPageRoute(
+            builder: (_) => feedback.FeedbackPage(
+              imageFile: args['imageFile'],
+              mood: args['mood'],
+            ),
+          );
+        }
+        return null;
+      },
       routes: {
         '/login': (context) => mainLogin.LoginScreen(),
         '/login_both': (context) => seniorLogin.SeniorCitizenLoginScreen(),
@@ -31,7 +43,7 @@ class SilverOnApp extends StatelessWidget {
         '/game': (context) => SeniorGameScreen(),
         '/game_matching': (context) => CardCoupleGame(),
         '/local_event': (context) => SeniorLocalEventScreen(),
-
+        '/reminiscence': (context) => reminiscence.UploadPage(),
       },
     );
   }
