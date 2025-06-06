@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 
 // ─── 시작 및 주요 화면 import
 import 'SplashScreen.dart';
-import 'mainLoginScreen.dart' as mainLogin;
-import 'SeniorCitizenLoginScreen.dart' as seniorLogin;
-import 'RegisterScreen.dart';
-import 'CaregiverRegisterScreen.dart';
-import 'SeniorHomeScreen.dart';
-import 'CaregiverHomeScreen.dart';
-import 'CaregiverDetailScreen.dart';
-import 'SeniorGameScreen.dart';
-import 'CardCoupleGame.dart';
-import 'SeniorLocalEventScreen.dart';
-import 'SeniorReminiscenceScreen.dart' as reminiscence;
-import 'SeniorReminiscenceFeedbackScreen.dart' as feedback;
+import 'screens/login/mainLoginScreen.dart' as mainLogin;
+import 'screens/login/SeniorCitizenLoginScreen.dart' as seniorLogin;
+import 'screens/login/RegisterScreen.dart';
+import 'screens/login/CaregiverRegisterScreen.dart';
+import 'screens/senior/SeniorHomeScreen.dart';
+import 'screens/caregiver/CaregiverHomeScreen.dart';
+import 'screens/caregiver/CaregiverDetailScreen.dart';
+import 'screens/senior/SeniorGameScreen.dart';
+import 'screens/senior/game/CardCoupleGame.dart';
+import 'screens/senior/SeniorLocalEventScreen.dart';
+import 'screens/senior/SeniorReminiscenceScreen.dart' as reminiscence;
+import 'screens/senior/SeniorReminiscenceFeedbackScreen.dart' as feedback;
 
 void main() => runApp(SilverOnApp());
 
