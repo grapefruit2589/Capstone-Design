@@ -20,14 +20,13 @@ class _CaregiverRegisterScreenState extends State<CaregiverRegisterScreen> {
       return;
     }
 
-    final url = Uri.parse('http://localhost:5000/nurse/signup');
+    final url = Uri.parse('http://localhost:5000/caregiver/signup');
 
     final body = {
-      // 서버가 기대하는 키 이름: nurse_name, nurse_email, nurse_tel, nurse_pw
-      "nurse_name": nameController.text.trim(),
-      "nurse_email": emailController.text.trim(),
-      "nurse_tel": phoneController.text.trim(),
-      "nurse_pw": passwordController.text.trim(),
+      "caregiver_name": nameController.text.trim(),
+      "caregiver_email": emailController.text.trim(),
+      "caregiver_tel": phoneController.text.trim(),
+      "caregiver_pw": passwordController.text.trim(),
     };
 
     try {
