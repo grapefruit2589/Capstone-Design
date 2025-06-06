@@ -281,7 +281,7 @@ class _SeniorCitizenLoginScreenState extends State<SeniorCitizenLoginScreen> {
                       if (selectedRole == 'senior') {
                         Navigator.pushNamed(context, '/register');
                       } else {
-                        Navigator.pushNamed(context, '/register_nurse');
+                        Navigator.pushNamed(context, '/register_caregiver');
                       }
                     },
                     style: OutlinedButton.styleFrom(
