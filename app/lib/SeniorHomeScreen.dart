@@ -1,9 +1,63 @@
+// lib/SeniorHomeScreen.dart
+
 import 'package:flutter/material.dart';
-import 'module/bottomNavigationBar.dart';
+
+class CustomBottomNav extends StatelessWidget {
+  final Color color;
+  final String homeRoute;
+  final String? seniorName;
+
+  const CustomBottomNav({
+    Key? key,
+    required this.color,
+    required this.homeRoute,
+    this.seniorName,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BottomNavigationBar(
+      selectedItemColor: color,
+      unselectedItemColor: color.withOpacity(0.5),
+      items: [
+        BottomNavigationBarItem(
+          icon: Icon(Icons.home, color: color),
+          label: '홈',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.directions_run, color: color),
+          label: '활동',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.help_outline, color: color),
+          label: '도움말',
+        ),
+      ],
+      onTap: (index) {
+        switch (index) {
+          case 0:
+            Navigator.pushReplacementNamed(
+              context,
+              homeRoute,
+              arguments: seniorName,
+            );
+            break;
+          case 1:
+            Navigator.pushNamed(context, '/activities');
+            break;
+          case 2:
+            Navigator.pushNamed(context, '/help');
+            break;
+        }
+      },
+    );
+  }
+}
 
 class SeniorHomeScreen extends StatelessWidget {
   final String seniorName;
-  const SeniorHomeScreen({Key? key, required this.seniorName}) : super(key: key);
+  const SeniorHomeScreen({Key? key, required this.seniorName})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,22 +70,21 @@ class SeniorHomeScreen extends StatelessWidget {
           children: [
             Column(
               children: [
-                // 상단 인사말
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                  padding:
+                  const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         '🧓 $seniorName 어르신,\n안녕하세요!',
-                        style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                        style: const TextStyle(
+                            fontSize: 30, fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 30),
                     ],
                   ),
                 ),
-
-                // 기능 버튼 그리드
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -42,17 +95,17 @@ class SeniorHomeScreen extends StatelessWidget {
                       childAspectRatio: 1,
                       children: [
                         _buildTile(context, '추억공유', Icons.photo, '', blue),
-                        _buildTile(context, '치매 예방 게임', Icons.extension, '/game', blue),
+                        _buildTile(
+                            context, '치매 예방 게임', Icons.extension, '/game', blue),
                         _buildStepTile(context, blue),
-                        _buildTile(context, '지역 행사', Icons.event, '/local_event', blue),
+                        _buildTile(
+                            context, '지역 행사', Icons.event, '/local_event', blue),
                       ],
                     ),
                   ),
                 ),
               ],
             ),
-
-            // 긴급 호출 버튼
             Positioned(
               bottom: 20,
               left: 20,
@@ -82,6 +135,7 @@ class SeniorHomeScreen extends StatelessWidget {
       bottomNavigationBar: CustomBottomNav(
         color: blue,
         homeRoute: '/home_senior',
+        seniorName: seniorName,
       ),
     );
   }
