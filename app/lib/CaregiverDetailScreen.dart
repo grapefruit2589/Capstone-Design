@@ -19,7 +19,7 @@ class CaregiverDetailScreen extends StatelessWidget {
       body: SafeArea(
         child: Stack(
           children: [
-            SingleChildScrollView( // 스크롤
+            SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 child: Column(
@@ -41,7 +41,6 @@ class CaregiverDetailScreen extends StatelessWidget {
 
                     SizedBox(height: 32),
 
-                    // ✅ 확대된 지도 박스
                     Container(
                       height: 300,
                       width: MediaQuery.of(context).size.width * 0.9,
@@ -63,7 +62,6 @@ class CaregiverDetailScreen extends StatelessWidget {
               ),
             ),
 
-            // 뒤로가기 버튼
             Positioned(
               top: 12,
               left: 12,

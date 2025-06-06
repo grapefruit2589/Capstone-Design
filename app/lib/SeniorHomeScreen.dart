@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'module/bottomNavigationBar.dart';
 
-class SeniorHomeCompactScreen extends StatelessWidget {
-  const SeniorHomeCompactScreen({super.key});
+class SeniorHomeScreen extends StatelessWidget {
+  final String seniorName;
+  const SeniorHomeScreen({Key? key, required this.seniorName}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -11,31 +12,52 @@ class SeniorHomeCompactScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-          child: Column(
-            children: [
-              const Text(
-                '🧓 ooo어르신, \n안녕하세요!',
-                style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 40),
-              GridView.count(
-                crossAxisCount: 2,
-                shrinkWrap: true,
-                mainAxisSpacing: 12,
-                crossAxisSpacing: 12,
-                childAspectRatio: 1,
-                physics: const NeverScrollableScrollPhysics(),
-                children: [
-                  _buildTile(context, '추억공유', Icons.photo, '/reminiscence', blue),
-                  _buildTile(context, '치매 예방 게임', Icons.extension, '/game', blue),
-                  _buildStepTile(context, blue),
-                  _buildTile(context, '지역 행사', Icons.event, '/local_event', blue),
-                ],
-              ),
-              const SizedBox(height: 36),
-              ElevatedButton.icon(
+        child: Stack(
+          children: [
+            Column(
+              children: [
+                // 상단 인사말
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '🧓 $seniorName 어르신,\n안녕하세요!',
+                        style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 30),
+                    ],
+                  ),
+                ),
+
+                // 기능 버튼 그리드
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: GridView.count(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 20,
+                      crossAxisSpacing: 20,
+                      childAspectRatio: 1,
+                      children: [
+                        _buildTile(context, '추억공유', Icons.photo, '', blue),
+                        _buildTile(context, '치매 예방 게임', Icons.extension, '/game', blue),
+                        _buildStepTile(context, blue),
+                        _buildTile(context, '지역 행사', Icons.event, '/local_event', blue),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+
+            // 긴급 호출 버튼
+            Positioned(
+              bottom: 20,
+              left: 20,
+              right: 20,
+              child: ElevatedButton.icon(
                 onPressed: () {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text('긴급 호출이 전송되었습니다!')),
@@ -53,8 +75,8 @@ class SeniorHomeCompactScreen extends StatelessWidget {
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
       bottomNavigationBar: CustomBottomNav(

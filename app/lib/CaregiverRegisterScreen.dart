@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class RegisterScreen extends StatefulWidget {
+class CaregiverRegisterScreen extends StatefulWidget {
   @override
-  _RegisterScreenState createState() => _RegisterScreenState();
+  _CaregiverRegisterScreenState createState() => _CaregiverRegisterScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
+class _CaregiverRegisterScreenState extends State<CaregiverRegisterScreen> {
   final nameController = TextEditingController();
   final emailController = TextEditingController();
   final phoneController = TextEditingController();
@@ -20,13 +20,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
       return;
     }
 
-    final url = Uri.parse('http://localhost:5000/member/signup');
+    final url = Uri.parse('http://localhost:5000/caregiver/signup');
 
     final body = {
-      "mem_name": nameController.text.trim(),
-      "mem_email": emailController.text.trim(),
-      "mem_tel": phoneController.text.trim(),
-      "mem_pw": passwordController.text.trim(),
+      "caregiver_name": nameController.text.trim(),
+      "caregiver_email": emailController.text.trim(),
+      "caregiver_tel": phoneController.text.trim(),
+      "caregiver_pw": passwordController.text.trim(),
     };
 
     try {
@@ -94,7 +94,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 SizedBox(height: 8),
                 Text(
-                  '노인 정보를 입력해주세요!',
+                  '요양보호사 정보를 입력해주세요!',
                   style: TextStyle(fontSize: 18, color: Colors.grey[700]),
                   textAlign: TextAlign.center,
                 ),
