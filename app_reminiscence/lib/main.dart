@@ -45,7 +45,9 @@ class SilverOnApp extends StatelessWidget {
           case '/caregiver_detail':
             return MaterialPageRoute(
               builder: (_) => CaregiverDetailScreen(),
+              settings: settings, // arguments를 ModalRoute.of(context)에서 받을 수 있게 해줌
             );
+
 
           case '/reminiscence_feedback':
             final args = settings.arguments as Map;
