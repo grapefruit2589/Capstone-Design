@@ -59,10 +59,10 @@ class SeniorGameScreen extends StatelessWidget {
                             'route': '/game_proverb',
                           },
                           {
-                            'title': '가수 맞추기',
+                            'title': '삼목 게임',
                             'subtitle': '',
-                            'icon': Icons.mic_external_on,
-                            'route': '/game_singer',
+                            'icon': Icons.grid_3x3,
+                            'route': '/game_sammok',
                           },
                           {
                             'title': '가사 맞추기',

@@ -14,6 +14,9 @@ import 'screens/senior/game/CardCoupleGame.dart';
 import 'screens/senior/SeniorLocalEventScreen.dart';
 import 'screens/senior/SeniorReminiscenceScreen.dart' as reminiscence;
 import 'screens/senior/SeniorReminiscenceFeedbackScreen.dart' as feedback;
+import 'screens/senior/game/SokdamQuiz.dart';
+import 'screens/senior/game/SammokGame.dart';
+
 
 void main() => runApp(SilverOnApp());
 
@@ -72,6 +75,8 @@ class SilverOnApp extends StatelessWidget {
         '/local_event': (context) => SeniorLocalEventScreen(),
         '/reminiscence': (context) => reminiscence.UploadPage(),
         '/register_nurse': (context) => CaregiverRegisterScreen(),
+        '/game_proverb': (context) => SokdamQuiz(),
+        '/game_sammok': (context) => SammokGame(),
       },
     );
   }
