@@ -182,23 +182,39 @@ class _CardCoupleGameState extends State<CardCoupleGame> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // 주요 변경 사항: AppBar의 IconButton을 노인 친화적으로 키움
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: Icon(Icons.arrow_back, size: 36),
           onPressed: () => Navigator.pop(context),
+          tooltip: '뒤로가기',
+          padding: EdgeInsets.all(12),
+          constraints: BoxConstraints(),
         ),
-        title: Text('🧩 그림 짝 찾기'),
+        title: Text('🧩 그림 짝 찾기', style: TextStyle(fontSize: 24)),
         actions: [
           IconButton(
-            icon: Icon(isPaused ? Icons.play_arrow : Icons.pause),
+            icon: Icon(
+              isPaused ? Icons.play_arrow : Icons.pause,
+              size: 36,
+            ),
             onPressed: isCountdown ? null : togglePause,
             tooltip: isPaused ? '재시작' : '일시정지',
+            padding: EdgeInsets.all(12),
+            constraints: BoxConstraints(),
           ),
+          SizedBox(width: 8),
           IconButton(
-            icon: Icon(Icons.stop),
+            icon: Icon(
+              Icons.stop,
+              size: 36,
+            ),
             onPressed: isCountdown ? null : endGameEarly,
             tooltip: '조기 종료',
+            padding: EdgeInsets.all(12),
+            constraints: BoxConstraints(),
           ),
+          SizedBox(width: 10),
         ],
       ),
       body: Stack(
@@ -264,7 +280,7 @@ class _CardCoupleGameState extends State<CardCoupleGame> {
             left: 10,
             child: Text(
               '시도: $count회',
-              style: TextStyle(fontSize: 18),
+              style: TextStyle(fontSize: 28), // 노인 친화적으로 키움
             ),
           ),
           Positioned(
@@ -272,7 +288,7 @@ class _CardCoupleGameState extends State<CardCoupleGame> {
             right: 10,
             child: Text(
               '남은 시간: $timeLimit초',
-              style: TextStyle(fontSize: 18),
+              style: TextStyle(fontSize: 28), // 노인 친화적으로 키움
             ),
           ),
         ],
