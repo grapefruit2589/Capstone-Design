@@ -1,9 +1,7 @@
-DROP TABLE IF EXISTS members;
-DROP TABLE IF EXISTS nurses;
-
 -- ================================================
 -- ③ members 테이블 생성
 -- ================================================
+DROP TABLE IF EXISTS members;
 CREATE TABLE members (
     mem_id    INT           NOT NULL AUTO_INCREMENT,   -- 회원 고유 ID (자동 증가)
     mem_name  VARCHAR(10)   NOT NULL,                  -- 회원 이름 (최대 10자)
@@ -17,6 +15,7 @@ CREATE TABLE members (
 -- ================================================
 -- ④ nurses 테이블 생성
 -- ================================================
+DROP TABLE IF EXISTS nurses;
 CREATE TABLE nurses (
     nurse_id    INT           NOT NULL AUTO_INCREMENT,  -- 요양보호사 고유 ID (자동 증가)
     nurse_name  VARCHAR(50)   NOT NULL,                 -- 요양보호사 이름
