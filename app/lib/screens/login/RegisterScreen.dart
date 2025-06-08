@@ -23,7 +23,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
     //final url = Uri.parse('http://localhost:5000/member/signup');
     //ngrok가 만들어준 주소
-    final Uri url = Uri.parse('$baseUrl/nurse/signup');
+    final Uri url = Uri.parse('$baseUrl/member/signup');
 
     final body = {
       "mem_name": nameController.text.trim(),
