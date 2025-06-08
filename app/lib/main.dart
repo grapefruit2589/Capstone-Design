@@ -2,18 +2,21 @@ import 'package:flutter/material.dart';
 
 // ─── 시작 및 주요 화면 import
 import 'SplashScreen.dart';
-import 'mainLoginScreen.dart' as mainLogin;
-import 'SeniorCitizenLoginScreen.dart' as seniorLogin;
-import 'RegisterScreen.dart';
-import 'CaregiverRegisterScreen.dart';
-import 'SeniorHomeScreen.dart';
-import 'CaregiverHomeScreen.dart';
-import 'CaregiverDetailScreen.dart';
-import 'SeniorGameScreen.dart';
-import 'CardCoupleGame.dart';
-import 'SeniorLocalEventScreen.dart';
-import 'SeniorReminiscenceScreen.dart' as reminiscence;
-import 'SeniorReminiscenceFeedbackScreen.dart' as feedback;
+import 'screens/login/mainLoginScreen.dart' as mainLogin;
+import 'screens/login/SeniorCitizenLoginScreen.dart' as seniorLogin;
+import 'screens/login/RegisterScreen.dart';
+import 'screens/login/CaregiverRegisterScreen.dart';
+import 'screens/senior/SeniorHomeScreen.dart';
+import 'screens/caregiver/CaregiverHomeScreen.dart';
+import 'screens/caregiver/CaregiverDetailScreen.dart';
+import 'screens/senior/SeniorGameScreen.dart';
+import 'screens/senior/game/CardCoupleGame.dart';
+import 'screens/senior/SeniorLocalEventScreen.dart';
+import 'screens/senior/SeniorReminiscenceScreen.dart' as reminiscence;
+import 'screens/senior/SeniorReminiscenceFeedbackScreen.dart' as feedback;
+import 'screens/senior/game/SokdamQuiz.dart';
+import 'screens/senior/game/SammokGame.dart';
+
 
 void main() => runApp(SilverOnApp());
 
@@ -45,7 +48,9 @@ class SilverOnApp extends StatelessWidget {
           case '/caregiver_detail':
             return MaterialPageRoute(
               builder: (_) => CaregiverDetailScreen(),
+              settings: settings, // arguments를 ModalRoute.of(context)에서 받을 수 있게 해줌
             );
+
 
           case '/reminiscence_feedback':
             final args = settings.arguments as Map;
@@ -69,6 +74,9 @@ class SilverOnApp extends StatelessWidget {
         '/game_matching': (context) => CardCoupleGame(),
         '/local_event': (context) => SeniorLocalEventScreen(),
         '/reminiscence': (context) => reminiscence.UploadPage(),
+        '/register_nurse': (context) => CaregiverRegisterScreen(),
+        '/game_proverb': (context) => SokdamQuiz(),
+        '/game_sammok': (context) => SammokGame(),
       },
     );
   }
